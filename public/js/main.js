@@ -1,5 +1,5 @@
 import { api } from './api.js';
-import { applyTheme, applyCompactMode, getInitials, showToast } from './utils.js';
+import { applyTheme, applyCompactMode, escapeHtml, getInitials, showToast } from './utils.js';
 import { initModals, openTaskFormModal } from './modal.js';
 import { renderDashboardView } from './views/dashboardView.js';
 import { renderTasksView } from './views/tasksView.js';
@@ -153,11 +153,15 @@ async function navigateTo(routeKey, pushHash = true) {
       }
     });
   } catch (err) {
+    const safeMsg =
+      typeof err?.message === 'string' && err.message !== '[object Object]'
+        ? err.message
+        : 'Check your connection and try again.';
     container.innerHTML = `
       <div class="surface-panel">
         <div class="empty-state">
           <div class="empty-state-title">Unable to load page</div>
-          <p class="empty-state-desc">${err.message || 'Check your connection and try again.'}</p>
+          <p class="empty-state-desc">${escapeHtml(safeMsg)}</p>
           <button type="button" id="retry-route-btn" class="btn btn-primary btn-sm">Retry</button>
         </div>
       </div>
@@ -165,7 +169,7 @@ async function navigateTo(routeKey, pushHash = true) {
     document.getElementById('retry-route-btn')?.addEventListener('click', () => {
       navigateTo(targetRoute, false);
     });
-    showToast(err.message || 'Failed to render view.', 'error');
+    showToast(safeMsg, 'error');
   }
 }
 
@@ -187,10 +191,6 @@ async function bootstrap() {
   // Topbar primary CTA
   document.getElementById('topbar-new-task-btn')?.addEventListener('click', () => {
     openTaskFormModal({ defaultSettings: cachedSettings });
-  });
-
-  document.getElementById('sidebar-download-source-btn')?.addEventListener('click', () => {
-    showToast('Downloading taskflow-source-code.zip...');
   });
 
   // Initialize modals & re-render active page after task creation/update/delete

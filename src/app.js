@@ -4,7 +4,6 @@ import { fileURLToPath } from 'node:url';
 import taskRoutes from './routes/taskRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import settingsRoutes from './routes/settingsRoutes.js';
-import sourceCodeRoutes from './routes/sourceCodeRoutes.js';
 import { AppError } from './validators/taskValidator.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -38,7 +37,6 @@ app.use('/api/tasks', taskRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/reports', dashboardRoutes);
 app.use('/api/settings', settingsRoutes);
-app.use('/api/source-code', sourceCodeRoutes);
 
 // 404 handler for unknown API routes
 app.use('/api', (req, res) => {

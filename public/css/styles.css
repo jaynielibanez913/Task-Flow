@@ -251,15 +251,6 @@ textarea {
 .sidebar-footer {
   padding: 16px 20px;
   border-top: 1px solid var(--border-subtle);
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.sidebar-download-btn {
-  width: 100%;
-  text-decoration: none;
-  font-size: 0.81rem;
 }
 
 .workspace-profile {

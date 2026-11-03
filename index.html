@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TaskFlow</title>
+    <meta
+      name="description"
+      content="Personal Task &amp; Productivity Management System to organize daily activities, manage tasks, track deadlines, and monitor productivity."
+    />
+    <meta property="og:title" content="TaskFlow" />
+    <meta
+      property="og:description"
+      content="Personal Task &amp; Productivity Management System to organize daily activities, manage tasks, track deadlines, and monitor productivity."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@500;600;700&family=Public+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function () {
+        try {
+          var savedTheme = localStorage.getItem('taskflow_theme');
+          if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+          } else if (savedTheme === 'light') {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (_e) {}
+      })();
+    </script>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <!-- Mobile Backdrop -->
+      <div id="sidebar-backdrop" class="sidebar-backdrop" hidden></div>
+
+      <!-- Sidebar Navigation -->
+      <aside id="app-sidebar" class="sidebar" aria-label="Primary Navigation">
+        <div class="sidebar-header">
+          <a href="#dashboard" class="brand-wordmark" data-nav="dashboard">TaskFlow</a>
+          <button
+            type="button"
+            id="close-sidebar-btn"
+            class="icon-button mobile-only"
+            aria-label="Close navigation menu"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+
+        <nav class="sidebar-nav" aria-label="Workspace Pages">
+          <button type="button" class="nav-item active" data-nav="dashboard">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <rect x="3" y="3" width="7" height="9" rx="1.5" />
+              <rect x="14" y="3" width="7" height="5" rx="1.5" />
+              <rect x="14" y="12" width="7" height="9" rx="1.5" />
+              <rect x="3" y="16" width="7" height="5" rx="1.5" />
+            </svg>
+            <span>Dashboard</span>
+          </button>
+
+          <button type="button" class="nav-item" data-nav="tasks">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M9 11l3 3L22 4" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>My Tasks</span>
+            <span id="nav-active-count" class="nav-counter">0</span>
+          </button>
+
+          <button type="button" class="nav-item" data-nav="board">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <rect x="3" y="4" width="5" height="16" rx="1" />
+              <rect x="10" y="4" width="5" height="11" rx="1" />
+              <rect x="17" y="4" width="4" height="14" rx="1" />
+            </svg>
+            <span>Task Board</span>
+          </button>
+
+          <button type="button" class="nav-item" data-nav="reports">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M18 20V10M12 20V4M6 20v-6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>Reports &amp; Analytics</span>
+          </button>
+
+          <button type="button" class="nav-item" data-nav="settings">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <circle cx="12" cy="12" r="3" />
+              <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" />
+            </svg>
+            <span>Settings</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <a
+            href="/api/source-code"
+            download="taskflow-source-code.zip"
+            id="sidebar-download-source-btn"
+            class="btn btn-secondary sidebar-download-btn"
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke-linecap="round" stroke-linejoin="round" />
+              <polyline points="7 10 12 15 17 10" stroke-linecap="round" stroke-linejoin="round" />
+              <line x1="12" y1="15" x2="12" y2="3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>Download Source (.zip)</span>
+          </a>
+
+          <div class="workspace-profile">
+            <div id="sidebar-avatar" class="profile-initials" aria-hidden="true">AM</div>
+            <div class="profile-meta">
+              <span id="sidebar-user-name" class="profile-name">Alex Morgan</span>
+              <span id="sidebar-date-label" class="profile-subtext">Personal Workspace</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Workspace Column -->
+      <div class="workspace-main">
+        <!-- Top Header Contract: Breadcrumb on Left, Primary CTA on Right -->
+        <header class="topbar">
+          <div class="topbar-left">
+            <button
+              type="button"
+              id="open-sidebar-btn"
+              class="icon-button mobile-only"
+              aria-label="Open navigation menu"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M3 12h18M3 6h18M3 18h18" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+              <span class="breadcrumb-root">Workspace</span>
+              <span class="breadcrumb-sep" aria-hidden="true">/</span>
+              <span id="breadcrumb-current" class="breadcrumb-current">Dashboard</span>
+            </nav>
+          </div>
+
+          <div class="topbar-right">
+            <button type="button" id="topbar-new-task-btn" class="btn btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+                <path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <span>New Task</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- Dynamic Page Container -->
+        <main id="view-container" class="view-container" tabindex="-1">
+          <div class="loading-shell" aria-busy="true">
+            <div class="skeleton-line skeleton-title"></div>
+            <div class="skeleton-grid">
+              <div class="skeleton-box"></div>
+              <div class="skeleton-box"></div>
+              <div class="skeleton-box"></div>
+              <div class="skeleton-box"></div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Create / Edit Task Modal -->
+    <div id="task-form-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="task-form-title" hidden>
+      <div class="modal-panel">
+        <div class="modal-header">
+          <h2 id="task-form-title" class="modal-title">Create Task</h2>
+          <button type="button" class="icon-button" data-close-modal="task-form-modal" aria-label="Close dialog">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+
+        <form id="task-form" novalidate>
+          <input type="hidden" id="task-id-input" name="id" />
+          <div id="task-form-error" class="form-alert" role="alert" hidden></div>
+
+          <div class="form-group">
+            <label for="task-title-input" class="form-label">Title <span class="required-mark">*</span></label>
+            <input
+              type="text"
+              id="task-title-input"
+              name="title"
+              class="form-input"
+              maxlength="160"
+              placeholder="e.g., Prepare Q4 product roadmap review"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="task-description-input" class="form-label">Description</label>
+            <textarea
+              id="task-description-input"
+              name="description"
+              class="form-textarea"
+              rows="3"
+              maxlength="2000"
+              placeholder="Add key deliverables, notes, or acceptance criteria..."
+            ></textarea>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="task-category-select" class="form-label">Category</label>
+              <select id="task-category-select" class="form-select">
+                <option value="Work">Work</option>
+                <option value="Personal">Personal</option>
+                <option value="Study">Study</option>
+                <option value="Health">Health</option>
+                <option value="Finance">Finance</option>
+                <option value="General">General</option>
+                <option value="__custom__">+ Custom Category...</option>
+              </select>
+              <input
+                type="text"
+                id="task-custom-category-input"
+                class="form-input mt-2"
+                maxlength="50"
+                placeholder="Enter category name"
+                hidden
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="task-due-date-input" class="form-label">Due Date</label>
+              <input type="date" id="task-due-date-input" name="due_date" class="form-input tabular-nums" />
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="task-priority-select" class="form-label">Priority</label>
+              <select id="task-priority-select" name="priority" class="form-select">
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="task-status-select" class="form-label">Status</label>
+              <select id="task-status-select" name="status" class="form-select">
+                <option value="Pending">Pending</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-close-modal="task-form-modal">Cancel</button>
+            <button type="submit" id="task-form-submit-btn" class="btn btn-primary">Save Task</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Task Details View Modal -->
+    <div id="task-detail-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="detail-task-title" hidden>
+      <div class="modal-panel">
+        <div class="modal-header">
+          <div class="detail-kicker" id="detail-task-meta">Work · High Priority</div>
+          <button type="button" class="icon-button" data-close-modal="task-detail-modal" aria-label="Close task details">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="detail-body">
+          <h2 id="detail-task-title" class="detail-title">Task Title</h2>
+          <p id="detail-task-description" class="detail-description">No description provided.</p>
+
+          <dl class="detail-specs">
+            <div class="detail-spec-row">
+              <dt>Current Status</dt>
+              <dd>
+                <select id="detail-status-select" class="form-select form-select-compact" aria-label="Change task status">
+                  <option value="Pending">Pending</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Completed">Completed</option>
+                </select>
+              </dd>
+            </div>
+            <div class="detail-spec-row">
+              <dt>Due Date</dt>
+              <dd id="detail-due-date" class="tabular-nums">—</dd>
+            </div>
+            <div class="detail-spec-row">
+              <dt>Created</dt>
+              <dd id="detail-created-at" class="tabular-nums">—</dd>
+            </div>
+            <div class="detail-spec-row">
+              <dt>Last Updated</dt>
+              <dd id="detail-updated-at" class="tabular-nums">—</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="modal-footer modal-footer-split">
+          <button type="button" id="detail-delete-btn" class="btn btn-danger-outline">Delete</button>
+          <div class="modal-footer-actions">
+            <button type="button" class="btn btn-secondary" data-close-modal="task-detail-modal">Close</button>
+            <button type="button" id="detail-edit-btn" class="btn btn-primary">Edit Task</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accessible Confirmation Modal -->
+    <div id="confirm-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title" hidden>
+      <div class="modal-panel modal-panel-sm">
+        <div class="modal-header">
+          <h2 id="confirm-modal-title" class="modal-title">Confirm Action</h2>
+          <button type="button" class="icon-button" data-close-modal="confirm-modal" aria-label="Close confirmation dialog">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+        <p id="confirm-modal-message" class="confirm-message">Are you sure you want to proceed?</p>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal="confirm-modal">Cancel</button>
+          <button type="button" id="confirm-modal-accept-btn" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container" role="status" aria-live="polite"></div>
+
+    <script type="module" src="/js/main.js"></script>
+  </body>
+</html>

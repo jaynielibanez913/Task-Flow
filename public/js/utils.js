@@ -82,9 +82,16 @@ export function showToast(message, type = 'info') {
   const container = document.getElementById('toast-container');
   if (!container) return;
 
+  const text =
+    typeof message === 'string'
+      ? message
+      : typeof message?.message === 'string'
+        ? message.message
+        : 'Operation could not be completed.';
+
   const toast = document.createElement('div');
   toast.className = type === 'error' ? 'toast toast-error' : 'toast';
-  toast.textContent = message;
+  toast.textContent = text;
   container.appendChild(toast);
 
   setTimeout(() => {

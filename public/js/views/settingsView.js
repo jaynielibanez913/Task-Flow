@@ -98,10 +98,6 @@ export async function renderSettingsView({ getSettings, onSettingsUpdated, refre
     }
   });
 
-  document.getElementById('settings-download-source-btn')?.addEventListener('click', () => {
-    showToast('Downloading taskflow-source-code.zip...');
-  });
-
   // Export JSON & CSV
   document.getElementById('settings-export-json-btn').addEventListener('click', async () => {
     try {

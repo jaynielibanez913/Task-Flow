@@ -1,0 +1,135 @@
+<section class="page-section" aria-labelledby="settings-heading">
+  <div class="page-header">
+    <div>
+      <h1 id="settings-heading" class="page-title">Settings</h1>
+      <p class="page-subtitle">Configure visual theme, default task parameters, and workspace data tools.</p>
+    </div>
+  </div>
+
+  <div class="settings-layout">
+    <!-- Appearance Section -->
+    <div class="surface-panel">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">Appearance &amp; Display</h2>
+          <p class="panel-subtitle">Switch between crisp light and low-glare dark workspace themes</p>
+        </div>
+      </div>
+
+      <div class="theme-selector" role="radiogroup" aria-label="Color Theme">
+        <button type="button" id="theme-btn-light" class="theme-option" data-theme-choice="light">
+          <span class="theme-option-title">Light Mode</span>
+          <span class="theme-option-desc">High-contrast daylight surface with cool slate hierarchy</span>
+        </button>
+
+        <button type="button" id="theme-btn-dark" class="theme-option" data-theme-choice="dark">
+          <span class="theme-option-title">Dark Mode</span>
+          <span class="theme-option-desc">Deep slate canvas calibrated for low-light focus</span>
+        </button>
+      </div>
+
+      <div class="setting-toggle-row">
+        <div>
+          <label for="setting-compact-checkbox" class="setting-label">Compact Table Density</label>
+          <p class="setting-help">Reduce vertical row padding in task lists and analytics tables.</p>
+        </div>
+        <input type="checkbox" id="setting-compact-checkbox" class="checkbox-input" />
+      </div>
+    </div>
+
+    <!-- User Preferences Form -->
+    <form id="settings-preferences-form" class="surface-panel" novalidate>
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">User Preferences</h2>
+          <p class="panel-subtitle">Stored persistently in SQLite for new tasks and weekly targets</p>
+        </div>
+      </div>
+
+      <div class="form-row-2">
+        <div class="form-group">
+          <label for="setting-display-name" class="form-label">Workspace Display Name</label>
+          <input type="text" id="setting-display-name" class="form-input" maxlength="60" required />
+        </div>
+
+        <div class="form-group">
+          <label for="setting-weekly-goal" class="form-label">Weekly Completion Goal</label>
+          <input type="number" id="setting-weekly-goal" class="form-input tabular-nums" min="1" max="200" required />
+        </div>
+      </div>
+
+      <div class="form-row-2">
+        <div class="form-group">
+          <label for="setting-default-category" class="form-label">Default Task Category</label>
+          <select id="setting-default-category" class="form-select">
+            <option value="Work">Work</option>
+            <option value="Personal">Personal</option>
+            <option value="Study">Study</option>
+            <option value="Health">Health</option>
+            <option value="Finance">Finance</option>
+            <option value="General">General</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="setting-default-priority" class="form-label">Default Task Priority</label>
+          <select id="setting-default-priority" class="form-select">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="settings-form-actions">
+        <button type="submit" id="settings-save-btn" class="btn btn-primary">Save Preferences</button>
+      </div>
+    </form>
+
+    <!-- Data Management -->
+    <div class="surface-panel">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">Workspace Data Management</h2>
+          <p class="panel-subtitle">Export SQLite task records or clean up completed items</p>
+        </div>
+      </div>
+
+      <div class="data-actions-row">
+        <div>
+          <div class="setting-label">Download Project Source Code</div>
+          <p class="setting-help">Download the complete TaskFlow codebase (HTML, CSS, Vanilla JS, Express, SQLite) as a ready-to-run ZIP archive.</p>
+        </div>
+        <a
+          href="/api/source-code"
+          download="taskflow-source-code.zip"
+          id="settings-download-source-btn"
+          class="btn btn-primary"
+        >
+          Download Source (.zip)
+        </a>
+      </div>
+
+      <div class="data-actions-row data-actions-divider">
+        <div>
+          <div class="setting-label">Export All Tasks</div>
+          <p class="setting-help">Download a complete snapshot of all tasks in JSON or CSV format.</p>
+        </div>
+        <div class="button-pair">
+          <button type="button" id="settings-export-json-btn" class="btn btn-secondary">Export JSON</button>
+          <button type="button" id="settings-export-csv-btn" class="btn btn-secondary">Export CSV</button>
+        </div>
+      </div>
+
+      <div class="data-actions-row data-actions-divider">
+        <div>
+          <div class="setting-label">Clear Completed Tasks</div>
+          <p class="setting-help">Permanently remove tasks marked as Completed from the database.</p>
+        </div>
+        <button type="button" id="settings-clear-completed-btn" class="btn btn-danger-outline">
+          Clear Completed
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

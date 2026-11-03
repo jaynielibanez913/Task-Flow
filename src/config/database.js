@@ -1,5 +1,6 @@
 import Database from 'better-sqlite3';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -30,11 +31,14 @@ export function getDbPath() {
   if (process.env.DB_PATH) {
     return path.resolve(process.env.DB_PATH);
   }
+  if (process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME) {
+    return path.join(os.tmpdir(), 'taskflow.db');
+  }
   return path.join(PROJECT_ROOT, 'database', 'taskflow.db');
 }
 
 export function initDatabase(customPath = null) {
-  const targetPath = customPath ? path.resolve(customPath) : getDbPath();
+  let targetPath = customPath ? path.resolve(customPath) : getDbPath();
 
   if (dbInstance && activeDbPath === targetPath) {
     return dbInstance;
@@ -49,14 +53,24 @@ export function initDatabase(customPath = null) {
     dbInstance = null;
   }
 
-  if (targetPath !== ':memory:') {
-    const dbDir = path.dirname(targetPath);
-    if (!fs.existsSync(dbDir)) {
-      fs.mkdirSync(dbDir, { recursive: true });
+  let db;
+  try {
+    if (targetPath !== ':memory:') {
+      const dbDir = path.dirname(targetPath);
+      if (!fs.existsSync(dbDir)) {
+        fs.mkdirSync(dbDir, { recursive: true });
+      }
+    }
+    db = new Database(targetPath);
+  } catch (err) {
+    // Fallback to writable /tmp directory on read-only serverless filesystems
+    if (!customPath && (err.code === 'EROFS' || err.code === 'EACCES' || err.code === 'SQLITE_CANTOPEN')) {
+      targetPath = path.join(os.tmpdir(), 'taskflow.db');
+      db = new Database(targetPath);
+    } else {
+      throw err;
     }
   }
-
-  const db = new Database(targetPath);
   db.pragma('journal_mode = WAL');
   db.pragma('foreign_keys = ON');
   db.pragma('busy_timeout = 5000');

@@ -242,21 +242,4 @@ describe('TaskFlow REST API, Validation & SQLite Persistence Suite', () => {
     const dash = await apiRequest('/api/dashboard');
     assert.equal(dash.body.data.summary.totalTasks, 2);
   });
-
-  it('serves complete downloadable project source code ZIP archive', async () => {
-    const res = await fetch(`${baseUrl}/api/source-code`);
-    assert.equal(res.status, 200);
-    assert.equal(res.headers.get('content-type'), 'application/zip');
-    assert.match(res.headers.get('content-disposition') || '', /taskflow-source-code\.zip/);
-
-    const arrayBuf = await res.arrayBuffer();
-    const zipBytes = Buffer.from(arrayBuf);
-    // Verify PKZIP local file header magic bytes (0x04034b50)
-    assert.equal(zipBytes.readUInt32LE(0), 0x04034b50);
-    const asciiSnapshot = zipBytes.toString('utf8');
-    assert.ok(asciiSnapshot.includes('taskflow/server.js'));
-    assert.ok(asciiSnapshot.includes('taskflow/src/app.js'));
-    assert.ok(asciiSnapshot.includes('taskflow/public/index.html'));
-    assert.ok(asciiSnapshot.includes('taskflow/package.json'));
-  });
 });

@@ -10,27 +10,27 @@ import { renderSettingsView } from './views/settingsView.js';
 const PAGE_CONFIG = {
   dashboard: {
     title: 'Dashboard',
-    templateUrl: '/pages/dashboard.html',
+    templateUrl: './pages/dashboard.html',
     render: renderDashboardView
   },
   tasks: {
     title: 'My Tasks',
-    templateUrl: '/pages/tasks.html',
+    templateUrl: './pages/tasks.html',
     render: renderTasksView
   },
   board: {
     title: 'Task Board',
-    templateUrl: '/pages/board.html',
+    templateUrl: './pages/board.html',
     render: renderBoardView
   },
   reports: {
     title: 'Reports & Analytics',
-    templateUrl: '/pages/reports.html',
+    templateUrl: './pages/reports.html',
     render: renderReportsView
   },
   settings: {
     title: 'Settings',
-    templateUrl: '/pages/settings.html',
+    templateUrl: './pages/settings.html',
     render: renderSettingsView
   }
 };
@@ -51,7 +51,7 @@ function resolveInitialRoute() {
   const hash = window.location.hash.replace(/^#/, '').trim().toLowerCase();
   if (hash && PAGE_CONFIG[hash]) return hash;
 
-  const pathSeg = window.location.pathname.replace(/^\//, '').trim().toLowerCase();
+  const pathSeg = window.location.pathname.replace(/^\/+|\/+$/g, '').split('/').pop()?.toLowerCase();
   if (pathSeg && PAGE_CONFIG[pathSeg]) return pathSeg;
 
   return 'dashboard';
@@ -63,7 +63,7 @@ async function fetchTemplate(url) {
   }
   const res = await fetch(url);
   if (!res.ok) {
-    throw new Error(`Failed to load view template: ${url}`);
+    throw new Error(`Failed to load view template (${res.status}).`);
   }
   const html = await res.text();
   templateCache.set(url, html);
@@ -122,7 +122,6 @@ async function navigateTo(routeKey, pushHash = true) {
 
   closeMobileSidebar();
 
-  // Update active nav item & breadcrumb
   document.querySelectorAll('.nav-item[data-nav]').forEach((btn) => {
     const active = btn.getAttribute('data-nav') === targetRoute;
     btn.classList.toggle('active', active);
@@ -173,43 +172,7 @@ async function navigateTo(routeKey, pushHash = true) {
   }
 }
 
-async function bootstrap() {
-  // Wire sidebar navigation
-  document.querySelectorAll('[data-nav]').forEach((el) => {
-    el.addEventListener('click', (event) => {
-      event.preventDefault();
-      const target = el.getAttribute('data-nav');
-      navigateTo(target);
-    });
-  });
-
-  // Mobile sidebar toggles
-  document.getElementById('open-sidebar-btn')?.addEventListener('click', openMobileSidebar);
-  document.getElementById('close-sidebar-btn')?.addEventListener('click', closeMobileSidebar);
-  document.getElementById('sidebar-backdrop')?.addEventListener('click', closeMobileSidebar);
-
-  // Topbar primary CTA
-  document.getElementById('topbar-new-task-btn')?.addEventListener('click', () => {
-    openTaskFormModal({ defaultSettings: cachedSettings });
-  });
-
-  // Initialize modals & re-render active page after task creation/update/delete
-  initModals({
-    getSettings: () => cachedSettings,
-    onDataMutated: async () => {
-      await refreshGlobalCounts();
-      await navigateTo(currentRoute, false);
-    }
-  });
-
-  window.addEventListener('hashchange', () => {
-    const nextRoute = resolveInitialRoute();
-    if (nextRoute !== currentRoute) {
-      navigateTo(nextRoute, false);
-    }
-  });
-
-  // Load persisted settings from SQLite
+async function loadInitialSettings() {
   try {
     const settingsRes = await api.getSettings();
     cachedSettings = settingsRes.data;
@@ -228,10 +191,51 @@ async function bootstrap() {
   } catch {
     syncSidebarProfile(cachedSettings);
   }
+}
 
-  await refreshGlobalCounts();
+function bootstrap() {
+  syncSidebarProfile(cachedSettings);
+
+  // Wire sidebar navigation immediately
+  document.querySelectorAll('[data-nav]').forEach((el) => {
+    el.addEventListener('click', (event) => {
+      event.preventDefault();
+      const target = el.getAttribute('data-nav');
+      navigateTo(target);
+    });
+  });
+
+  // Mobile sidebar toggles
+  document.getElementById('open-sidebar-btn')?.addEventListener('click', openMobileSidebar);
+  document.getElementById('close-sidebar-btn')?.addEventListener('click', closeMobileSidebar);
+  document.getElementById('sidebar-backdrop')?.addEventListener('click', closeMobileSidebar);
+
+  // Topbar primary CTA
+  document.getElementById('topbar-new-task-btn')?.addEventListener('click', () => {
+    openTaskFormModal({ defaultSettings: cachedSettings });
+  });
+
+  // Initialize modals immediately
+  initModals({
+    getSettings: () => cachedSettings,
+    onDataMutated: async () => {
+      await Promise.all([refreshGlobalCounts(), navigateTo(currentRoute, false)]);
+    }
+  });
+
+  window.addEventListener('hashchange', () => {
+    const nextRoute = resolveInitialRoute();
+    if (nextRoute !== currentRoute) {
+      navigateTo(nextRoute, false);
+    }
+  });
+
+  // Render active route in parallel with settings and counts (never block UI)
   const initialRoute = resolveInitialRoute();
-  await navigateTo(initialRoute, true);
+  Promise.all([loadInitialSettings(), refreshGlobalCounts()]).finally(() => {
+    syncSidebarProfile(cachedSettings);
+  });
+  navigateTo(initialRoute, true);
 }
 
 bootstrap();

@@ -11,7 +11,7 @@ const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'taskflow-test-'));
 const testDbPath = path.join(tempDir, 'test-taskflow.db');
 process.env.DB_PATH = testDbPath;
 
-import app from '../src/app.js';
+import { app } from '../src/app.js';
 import { initDatabase, closeDatabase } from '../src/config/database.js';
 
 let server = null;

@@ -55,9 +55,11 @@ app.get(APP_PAGE_ROUTES, (req, res) => {
   res.sendFile(path.join(PUBLIC_DIR, 'index.html'));
 });
 
-// Fallback for unknown non-API GET routes
+// Fallback for unknown non-API GET routes (strictly browser HTML navigations without file extensions)
 app.use((req, res) => {
-  if (req.method === 'GET' && req.accepts('html')) {
+  const acceptHeader = String(req.headers.accept || '');
+  const hasFileExtension = /\.[a-zA-Z0-9]+$/.test(req.path);
+  if (req.method === 'GET' && !hasFileExtension && acceptHeader.includes('text/html')) {
     res.sendFile(path.join(PUBLIC_DIR, 'index.html'));
     return;
   }
@@ -108,4 +110,4 @@ app.use((err, req, res, _next) => {
   });
 });
 
-export default app;
+export { app };

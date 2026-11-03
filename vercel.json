@@ -1,12 +1,27 @@
 {
-  "version": 2,
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api"
+      "source": "/api/:path*",
+      "destination": "/api/index.js"
     },
     {
-      "source": "/(dashboard|tasks|board|reports|settings)",
+      "source": "/dashboard",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tasks",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/board",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/reports",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/settings",
       "destination": "/index.html"
     }
   ]

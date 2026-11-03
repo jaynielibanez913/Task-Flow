@@ -1,0 +1,87 @@
+<section class="page-section" aria-labelledby="reports-heading">
+  <div class="page-header">
+    <div>
+      <h1 id="reports-heading" class="page-title">Reports &amp; Analytics</h1>
+      <p class="page-subtitle">Completion ratios, weekly velocity, priority allocation, and finished task log.</p>
+    </div>
+    <div class="page-header-actions">
+      <button type="button" id="reports-export-csv-btn" class="btn btn-secondary">
+        Download CSV
+      </button>
+    </div>
+  </div>
+
+  <!-- 4-Column Analytics Summary -->
+  <div class="metrics-strip metrics-strip-4">
+    <div class="metric-cell">
+      <span class="metric-label">Total Completed</span>
+      <strong id="rep-completed-total" class="metric-value metric-positive tabular-nums">0</strong>
+      <span id="rep-total-context" class="metric-note tabular-nums">Out of 0 total tasks</span>
+    </div>
+    <div class="metric-cell">
+      <span class="metric-label">Completion Rate</span>
+      <strong id="rep-completion-pct" class="metric-value tabular-nums">0%</strong>
+      <span class="metric-note">Overall workspace ratio</span>
+    </div>
+    <div class="metric-cell">
+      <span class="metric-label">7-Day Output</span>
+      <strong id="rep-weekly-completed" class="metric-value tabular-nums">0</strong>
+      <span id="rep-weekly-created" class="metric-note tabular-nums">0 created in last 7 days</span>
+    </div>
+    <div class="metric-cell">
+      <span class="metric-label">Active Backlog</span>
+      <strong id="rep-active-backlog" class="metric-value tabular-nums">0</strong>
+      <span id="rep-overdue-context" class="metric-note tabular-nums">0 overdue</span>
+    </div>
+  </div>
+
+  <!-- Weekly Productivity & Priority Distribution -->
+  <div class="dashboard-split">
+    <div class="surface-panel">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">Weekly Productivity</h2>
+          <p class="panel-subtitle">Daily tasks created vs. completed over the past 7 days</p>
+        </div>
+        <div class="chart-legend">
+          <span class="legend-item"><i class="legend-swatch swatch-completed"></i> Completed</span>
+          <span class="legend-item"><i class="legend-swatch swatch-created"></i> Created</span>
+        </div>
+      </div>
+      <div id="reports-weekly-chart" class="dual-bar-chart"></div>
+    </div>
+
+    <div class="surface-panel">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">Priority Distribution</h2>
+          <p class="panel-subtitle">Share of total tasks and completion rate by priority tier</p>
+        </div>
+      </div>
+      <div id="reports-priority-dist" class="priority-rows"></div>
+    </div>
+  </div>
+
+  <!-- Category Performance & Task Completion History -->
+  <div class="dashboard-split">
+    <div class="surface-panel surface-table-wrap">
+      <div class="panel-header panel-header-padded">
+        <div>
+          <h2 class="panel-title">Category Breakdown</h2>
+          <p class="panel-subtitle">Completion performance by category</p>
+        </div>
+      </div>
+      <div id="reports-category-table"></div>
+    </div>
+
+    <div class="surface-panel surface-table-wrap">
+      <div class="panel-header panel-header-padded">
+        <div>
+          <h2 class="panel-title">Task Completion History</h2>
+          <p class="panel-subtitle">Most recently finished tasks</p>
+        </div>
+      </div>
+      <div id="reports-history-table"></div>
+    </div>
+  </div>
+</section>

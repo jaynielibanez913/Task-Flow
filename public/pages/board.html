@@ -1,0 +1,77 @@
+<section class="page-section" aria-labelledby="board-heading">
+  <div class="page-header">
+    <div>
+      <h1 id="board-heading" class="page-title">Task Board</h1>
+      <p class="page-subtitle">Drag cards across columns or update status directly to move work forward.</p>
+    </div>
+
+    <div class="board-filters">
+      <input
+        type="search"
+        id="board-search-input"
+        class="form-input form-input-compact"
+        placeholder="Filter board..."
+        aria-label="Filter tasks on board"
+      />
+      <select id="board-category-filter" class="form-select form-select-compact" aria-label="Filter board by category">
+        <option value="All">All Categories</option>
+      </select>
+      <select id="board-priority-filter" class="form-select form-select-compact" aria-label="Filter board by priority">
+        <option value="All">All Priorities</option>
+        <option value="High">High Priority</option>
+        <option value="Medium">Medium Priority</option>
+        <option value="Low">Low Priority</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="kanban-grid" role="region" aria-label="Task Status Columns">
+    <!-- Pending Column -->
+    <div class="kanban-column" data-column-status="Pending">
+      <div class="kanban-column-header">
+        <div class="kanban-heading-group">
+          <h2 class="kanban-column-title">Pending</h2>
+          <span id="board-count-pending" class="kanban-count tabular-nums">0</span>
+        </div>
+        <button type="button" class="icon-button" data-quick-add="Pending" aria-label="Add pending task" title="New Pending Task">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M12 5v14M5 12h14" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+      <div id="board-col-pending" class="kanban-dropzone" data-drop-status="Pending"></div>
+    </div>
+
+    <!-- In Progress Column -->
+    <div class="kanban-column" data-column-status="In Progress">
+      <div class="kanban-column-header">
+        <div class="kanban-heading-group">
+          <h2 class="kanban-column-title">In Progress</h2>
+          <span id="board-count-inprogress" class="kanban-count tabular-nums">0</span>
+        </div>
+        <button type="button" class="icon-button" data-quick-add="In Progress" aria-label="Add in-progress task" title="New In-Progress Task">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M12 5v14M5 12h14" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+      <div id="board-col-inprogress" class="kanban-dropzone" data-drop-status="In Progress"></div>
+    </div>
+
+    <!-- Completed Column -->
+    <div class="kanban-column" data-column-status="Completed">
+      <div class="kanban-column-header">
+        <div class="kanban-heading-group">
+          <h2 class="kanban-column-title">Completed</h2>
+          <span id="board-count-completed" class="kanban-count tabular-nums">0</span>
+        </div>
+        <button type="button" class="icon-button" data-quick-add="Completed" aria-label="Add completed task" title="New Completed Task">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M12 5v14M5 12h14" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+      <div id="board-col-completed" class="kanban-dropzone" data-drop-status="Completed"></div>
+    </div>
+  </div>
+</section>

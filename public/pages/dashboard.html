@@ -1,0 +1,100 @@
+<section class="page-section" aria-labelledby="dashboard-heading">
+  <div class="page-header">
+    <div>
+      <h1 id="dashboard-heading" class="page-title">Overview</h1>
+      <p id="dashboard-subtitle" class="page-subtitle">Daily task execution, upcoming deadlines, and personal velocity.</p>
+    </div>
+    <div class="page-header-meta">
+      <span id="dashboard-goal-summary" class="goal-summary tabular-nums">Weekly Goal: 0 / 10 completed</span>
+    </div>
+  </div>
+
+  <!-- 5-Metric Summary Strip -->
+  <div class="metrics-strip" role="region" aria-label="Task Summary Metrics">
+    <div class="metric-cell">
+      <span class="metric-label">Total Tasks</span>
+      <strong id="kpi-total" class="metric-value tabular-nums">0</strong>
+      <span id="kpi-completion-sub" class="metric-note tabular-nums">0% completed</span>
+    </div>
+    <div class="metric-cell">
+      <span class="metric-label">Pending</span>
+      <strong id="kpi-pending" class="metric-value tabular-nums">0</strong>
+      <span class="metric-note">Queued to start</span>
+    </div>
+    <div class="metric-cell">
+      <span class="metric-label">In Progress</span>
+      <strong id="kpi-in-progress" class="metric-value tabular-nums">0</strong>
+      <span class="metric-note">Active focus</span>
+    </div>
+    <div class="metric-cell">
+      <span class="metric-label">Completed</span>
+      <strong id="kpi-completed" class="metric-value metric-positive tabular-nums">0</strong>
+      <span class="metric-note">Finished items</span>
+    </div>
+    <div class="metric-cell">
+      <span class="metric-label">Overdue</span>
+      <strong id="kpi-overdue" class="metric-value tabular-nums">0</strong>
+      <span id="kpi-overdue-note" class="metric-note">Past due date</span>
+    </div>
+  </div>
+
+  <!-- Productivity Progress & Weekly Chart -->
+  <div class="dashboard-split">
+    <div class="surface-panel">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">Productivity Statistics</h2>
+          <p class="panel-subtitle">7-day completion output and overall backlog progress</p>
+        </div>
+        <span id="dashboard-rate-figure" class="rate-figure tabular-nums">0%</span>
+      </div>
+
+      <div class="progress-track-wrap">
+        <div class="progress-track" role="progressbar" aria-label="Overall task completion percentage" aria-valuemin="0" aria-valuemax="100" id="dashboard-progress-bar-role">
+          <div id="dashboard-progress-fill" class="progress-fill" style="width: 0%"></div>
+        </div>
+        <div class="progress-caption">
+          <span id="dashboard-progress-label" class="tabular-nums">0 of 0 tasks completed</span>
+          <button type="button" class="text-link" data-goto="reports">View full analytics</button>
+        </div>
+      </div>
+
+      <div id="dashboard-weekly-chart" class="weekly-bars" aria-label="Tasks completed over past 7 days"></div>
+    </div>
+
+    <div class="surface-panel">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">Priority Breakdown</h2>
+          <p class="panel-subtitle">Distribution across active and completed work</p>
+        </div>
+        <button type="button" class="text-link" data-goto="board">Open board</button>
+      </div>
+      <div id="dashboard-priority-list" class="priority-rows"></div>
+    </div>
+  </div>
+
+  <!-- Upcoming Deadlines & Recent Activity -->
+  <div class="dashboard-split">
+    <div class="surface-panel">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">Upcoming &amp; Overdue Deadlines</h2>
+          <p class="panel-subtitle">Active tasks ordered by earliest target date</p>
+        </div>
+        <button type="button" class="text-link" data-goto="tasks">All tasks</button>
+      </div>
+      <div id="dashboard-deadlines-container"></div>
+    </div>
+
+    <div class="surface-panel">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">Recent Activities</h2>
+          <p class="panel-subtitle">Latest changes recorded in your workspace</p>
+        </div>
+      </div>
+      <div id="dashboard-activity-list" class="activity-feed"></div>
+    </div>
+  </div>
+</section>

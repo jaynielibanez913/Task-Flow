@@ -1,0 +1,75 @@
+<section class="page-section" aria-labelledby="tasks-heading">
+  <div class="page-header">
+    <div>
+      <h1 id="tasks-heading" class="page-title">My Tasks</h1>
+      <p class="page-subtitle">Search, filter, prioritize, and manage all personal and work tasks.</p>
+    </div>
+    <div class="page-header-meta">
+      <span id="tasks-result-count" class="goal-summary tabular-nums">0 tasks</span>
+    </div>
+  </div>
+
+  <!-- Filter & Search Toolbar -->
+  <div class="filter-toolbar" role="search" aria-label="Task search and filters">
+    <div class="toolbar-top-row">
+      <!-- Segmented Status Filter Controls -->
+      <div class="segmented-control" role="tablist" aria-label="Filter tasks by status">
+        <button type="button" class="segment-btn active" data-status-tab="All">All</button>
+        <button type="button" class="segment-btn" data-status-tab="Pending">Pending</button>
+        <button type="button" class="segment-btn" data-status-tab="In Progress">In Progress</button>
+        <button type="button" class="segment-btn" data-status-tab="Completed">Completed</button>
+        <button type="button" class="segment-btn" data-status-tab="Overdue">Overdue</button>
+      </div>
+
+      <div class="search-input-wrap">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8" />
+          <path d="M21 21l-4.35-4.35" stroke-linecap="round" />
+        </svg>
+        <input
+          type="search"
+          id="tasks-search-input"
+          class="form-input search-input"
+          placeholder="Search title, description, or category..."
+          aria-label="Search tasks"
+        />
+      </div>
+    </div>
+
+    <div class="toolbar-bottom-row">
+      <div class="filter-select-group">
+        <label for="tasks-category-filter" class="sr-only">Filter by Category</label>
+        <select id="tasks-category-filter" class="form-select form-select-compact">
+          <option value="All">All Categories</option>
+        </select>
+
+        <label for="tasks-priority-filter" class="sr-only">Filter by Priority</label>
+        <select id="tasks-priority-filter" class="form-select form-select-compact">
+          <option value="All">All Priorities</option>
+          <option value="High">High Priority</option>
+          <option value="Medium">Medium Priority</option>
+          <option value="Low">Low Priority</option>
+        </select>
+
+        <label for="tasks-sort-select" class="sr-only">Sort tasks</label>
+        <select id="tasks-sort-select" class="form-select form-select-compact">
+          <option value="due_date:asc">Sort: Due Date (Earliest)</option>
+          <option value="due_date:desc">Sort: Due Date (Latest)</option>
+          <option value="priority:desc">Sort: Priority (High to Low)</option>
+          <option value="priority:asc">Sort: Priority (Low to High)</option>
+          <option value="created_at:desc">Sort: Recently Created</option>
+          <option value="title:asc">Sort: Title (A–Z)</option>
+        </select>
+      </div>
+
+      <button type="button" id="tasks-reset-filters-btn" class="btn btn-ghost btn-sm" hidden>
+        Reset Filters
+      </button>
+    </div>
+  </div>
+
+  <!-- Tasks Data Table / Responsive List -->
+  <div class="surface-panel surface-table-wrap">
+    <div id="tasks-table-container"></div>
+  </div>
+</section>

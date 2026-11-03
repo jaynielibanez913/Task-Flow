@@ -1,0 +1,6 @@
+{
+  "name": "TaskFlow",
+  "description": "Personal Task & Productivity Management System to organize daily activities, manage tasks, track deadlines, and monitor productivity.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
